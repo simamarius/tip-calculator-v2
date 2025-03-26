@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <section>
+      <img class="page-logo" src="./assets/logo.svg" />
+
+      <div class="calculator-container">
+        <form>
+          <!-- Bill field -->
+          <label class="standard-label" id="amount-label" for="amount">Bill</label>
+          <div class="input-container">
+            <input id="amount" type="number" step="0.01" min="0" class="standard-input" placeholder="0"/>
+            <img class="input-icon-left" src="./assets/icon-dollar.svg" />
+          </div>
+
+          <!-- Tip field -->
+          <label class="standard-label" id="tip-label" for="tip">Select Tip %</label>
+          <div class="buttons-container">
+
+            <button>5%</button>
+            <button>10%</button>
+            <button>15%</button>
+            <button>25%</button>
+            <button>50%</button>
+            <input id="tip" type="number"  placeholder="Custom" />
+          </div>
+
+          <!-- Number of people field -->
+           <div class="row">
+
+             <label class="standard-label" for="number-of-people"
+             >Number of People</label
+             >
+             <p class="error-msg">Can`t be zero</p>
+            </div>
+          <div class="input-container">
+            <input id="number-of-people" type="number" class="standard-input"  placeholder="0"/>
+            <img class="input-icon-left" src="./assets/icon-person.svg" />
+          </div>
+
+          <!-- Calculate -->
+          <button type="submit" class="calculate" onclick="calculateTip()" disabled="true">Calculate</button>
+        </form>
+        <div class="results-container">
+          <!-- First row -->
+           <div class="rows">
+
+          
+          <div class="results-row">
+            <div>
+              <h4>Tip Amount</h4>
+              <p>/ person</p>
+            </div>
+            <p id="tip-person">$0.00</p>
+          </div>
+
+          <!-- Second row -->
+          <div class="results-row">
+            <div>
+              <h4>Total</h4>
+              <p>/ person</p>
+            </div>
+            <p id="tip-total-person">$0.00</p>
+          </div>
+        </div>
+          <!-- Reset button -->
+          <button id="rest" class="buttons" disabled="true">RESET</button>
+        </div>
+      </div>
+      <div class="history-container">
+        
+        <p id="no-data">There is no data in the history</p>
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>Bill</th>
+                <th>Tip %</th>
+                <th>No. people </th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>X</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr id="data">
+                <th ></th>
+                <th ></th>
+                <th > </th>
+                <th ></th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
