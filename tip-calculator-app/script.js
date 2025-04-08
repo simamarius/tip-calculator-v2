@@ -110,9 +110,9 @@ customTipInput.addEventListener("input", () => {
             tip: inputValori[2],
            date: inputValori[3]
         }
-        data.push(newData)
-        updateHistory()
-
+        data.push(newData);
+        updateHistory();
+        updateStatistics();
 
     } else {
         tipPerson.textContent = "$0.00"
@@ -171,8 +171,8 @@ function updateHistory() {
                 <td id="tipInput">${randData.tip}%</td>
                 <td id="peopleInput">${randData.people}</td>
                 <td id="dateInput">${randData.date}</td>
-                <td><button onclick="editRand(${index})"><i class="fa-solid fa-pen-to-square"></i></button></td>
-                <td><button onclick="deleteRand(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                <td><i onclick="editRand(${index})" class="fa-solid fa-pen-to-square"></i></td>
+                <td><i onclick="deleteRand(${index})" class="fa-solid fa-trash"></i></td>
             </tr>
         `).join("")
     }
@@ -182,10 +182,81 @@ function updateHistory() {
 
 
 function deleteRand(index) {
-   
         data.splice(index, 1)
 
-       
-        updateHistory()
-    
+        
+        updateHistory();
+        updateStatistics();
+}
+
+function editRand(index) {
+    const rand = data[index]
+
+    // Înlocuiește rândul cu un formular de editare
+    const row = `
+        <tr>
+            <td><input type="number" id="editBill" value="${rand.bill}"></td>
+            <td><input type="number" id="editTip" value="${rand.tip}"></td>
+            <td><input type="number" id="editPeople" value="${rand.people}"></td>
+            <td>${rand.date}</td>
+            <td>
+                <button onclick="saveEdit(${index})"><i class="fa-solid fa-check"></i></button>
+            </td>
+            <td>
+                <button onclick="updateHistory()"><i class="fa-solid fa-xmark"></i></button>
+            </td>
+        </tr>
+    `
+
+    // Înlocuiește doar rândul curent din tabel
+    const rows = history.querySelectorAll("tr")
+    rows[index].outerHTML = row
+}
+
+function saveEdit(index) {
+    // Preluăm noile valori din input-uri
+    const newBill = parseFloat(document.getElementById("editBill").value)
+    const newTip = parseFloat(document.getElementById("editTip").value)
+    const newPeople = parseInt(document.getElementById("editPeople").value)
+
+    // Actualizăm obiectul din array
+    data[index].bill = newBill
+    data[index].tip = newTip
+    data[index].people = newPeople
+
+    // Reafișăm istoricul
+    updateHistory();
+    updateStatistics();
+}
+
+function updateStatistics() {
+    const statisticsDiv = document.querySelector(".statistics");
+
+    // Dacă nu avem date, nu afișăm nimic
+    if (data.length === 0) {
+        statisticsDiv.innerHTML = "";
+        return;
+    }
+
+    const totalBills = data.reduce((sum, item) => sum + item.bill, 0);
+    const totalTips = data.reduce((sum, item) => sum + item.tip, 0);
+    const maxBill = Math.max(...data.map(item => item.bill));
+
+    const avgBill = (totalBills / data.length).toFixed(2);
+    const avgTip = (totalTips / data.length).toFixed(2);
+
+    statisticsDiv.innerHTML = `
+        <div class="stat-card">
+            <h3>Average Bill</h3>
+            <p>$${avgBill}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Average Tip</h3>
+            <p>${avgTip}%</p>
+        </div>
+        <div class="stat-card">
+            <h3>The Most Expensive</h3>
+            <p>$${maxBill.toFixed(2)}</p>
+        </div>
+    `;
 }
